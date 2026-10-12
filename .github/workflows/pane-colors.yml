@@ -6,7 +6,7 @@ permissions:
   contents: read
 concurrency:
   group: pane-colors-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   macos:
     if: github.repository == 'jonasgwozdz/herdr'
@@ -38,7 +38,7 @@ jobs:
           key: pane-colors-macos
       - name: Format and save exact patch
         run: |
-          cargo fmt
+          cargo fmt --check
           git diff -- src > formatting.patch
       - name: Check and test
         run: |
@@ -53,6 +53,8 @@ jobs:
           cp target/release/herdr herdr-pane-colors
           shasum -a 256 herdr-pane-colors > BUILD_INFO.txt
           echo "source_commit=$GITHUB_SHA" >> BUILD_INFO.txt
+          rustc --version >> BUILD_INFO.txt
+          file herdr-pane-colors >> BUILD_INFO.txt
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:

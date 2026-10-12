@@ -345,7 +345,11 @@ impl ClientShellState {
         });
         blit_pane_surface(&mut frame, &surface.frame, layout.pane_surface);
         self.config.pane_colors.paint_frame(
-            &mut frame, surface, snapshot, layout.pane_surface,
+            &mut frame,
+            surface,
+            snapshot,
+            layout.pane_surface,
+            crate::protocol::color_to_u32(self.config.palette.accent),
         );
         restore_mode_bar(&mut frame, mode_bar, mode_bar_cells.as_deref());
         let mut occlusion = crate::kitty_graphics::surface::Occlusion::default();

@@ -197,10 +197,16 @@ impl ClientShellState {
                 }),
         });
         if let (Some(composed), Some(snapshot), Some(area)) = (
-            composed_patch.as_mut(), self.snapshot.as_deref(), fast_path_area,
+            composed_patch.as_mut(),
+            self.snapshot.as_deref(),
+            fast_path_area,
         ) {
             self.config.pane_colors.paint_rows(
-                &mut composed.rows, current, snapshot, area,
+                &mut composed.rows,
+                snapshot,
+                area,
+                &patch.panes,
+                crate::protocol::color_to_u32(self.config.palette.accent),
             );
         }
         if let Some(area) = fast_path_area {

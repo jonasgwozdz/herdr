@@ -25,7 +25,10 @@ pub struct PaneColorRuleConfig {
 
 fn deserialize_theme<'de, D: Deserializer<'de>>(de: D) -> Result<Option<String>, D::Error> {
     let name = Option::<String>::deserialize(de)?;
-    if name.as_deref().is_some_and(|name| super::canonical_theme_name(name).is_none()) {
+    if name
+        .as_deref()
+        .is_some_and(|name| super::canonical_theme_name(name).is_none())
+    {
         return Err(D::Error::custom("unknown pane theme"));
     }
     Ok(name)
@@ -50,24 +53,31 @@ mod tests {
     fn pane_colors_are_opt_in_and_validate_rules() {
         assert!(!Config::default().ui.pane_colors.automatic);
         assert!(Config::default().ui.pane_colors.rules.is_empty());
-        let config: Config = toml::from_str(r##"
+        let config: Config = toml::from_str(
+            r##"
 [ui.pane_colors]
 automatic = true
 [[ui.pane_colors.rules]]
 pane = "reviewer"
 theme = "dracula"
 background = "#101020"
-"##).unwrap();
+"##,
+        )
+        .unwrap();
         assert!(config.ui.pane_colors.automatic);
         assert_eq!(config.ui.pane_colors.rules[0].pane, "reviewer");
         for value in ["#ff", "#12345z", "#üüü", "blue", ""] {
-            let input = format!("[[ui.pane_colors.rules]]\npane = \"test\"\nbackground = {value:?}");
+            let input =
+                format!("[[ui.pane_colors.rules]]\npane = \"test\"\nbackground = {value:?}");
             assert!(toml::from_str::<Config>(&input).is_err(), "{value}");
         }
-        assert!(toml::from_str::<Config>(r#"
+        assert!(toml::from_str::<Config>(
+            r#"
 [[ui.pane_colors.rules]]
 pane = "test"
 theme = "unknown"
-"#).is_err());
+"#
+        )
+        .is_err());
     }
 }

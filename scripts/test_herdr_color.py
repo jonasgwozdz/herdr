@@ -116,8 +116,9 @@ class PaneColorCommandTests(unittest.TestCase):
     def test_reload_failure_preserves_successful_saved_rule(self):
         with tempfile.TemporaryDirectory() as folder, contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             path = Path(folder) / "config.toml"
-            with patch.object(command, "request", side_effect=ValueError("server unavailable")):
+            with patch.dict(os.environ, {"HERDR_CONFIG_PATH": str(path)}), patch.object(command, "request", side_effect=ValueError("server unavailable")) as request:
                 self.assertEqual(command.main(["--config", str(path), "--name", "reviewer", "teal"]), 0)
+                request.assert_called_once_with(["server", "reload-config"])
             self.assertEqual(tomllib.loads(path.read_text())["ui"]["pane_colors"]["rules"][0]["pane"], "reviewer")
 
 

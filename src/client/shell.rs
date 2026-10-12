@@ -26,6 +26,7 @@ mod mobile;
 mod mouse;
 mod notification_policy;
 mod notifications;
+mod pane_colors;
 mod overlay_input;
 mod preferences;
 mod render;

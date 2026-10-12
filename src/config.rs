@@ -3,6 +3,7 @@ use crossterm::event::{KeyCode, KeyModifiers};
 mod io;
 mod keybinds;
 mod model;
+mod pane_colors;
 mod sidebar;
 mod sound;
 mod tab_bar;
@@ -32,6 +33,7 @@ pub use self::{
         AgentSidebarToken, AgentsSidebarConfig, SidebarConfig, SidebarTokenStyle,
         SpaceSidebarToken, SpacesSidebarConfig,
     },
+    pane_colors::PaneColorsConfig,
     sound::SoundConfig,
     tab_bar::TabBarRightEntryConfig,
     theme::{parse_color, CustomThemeColors, ModeThemeColors, ThemeConfig, THEME_NAMES},

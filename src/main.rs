@@ -306,6 +306,17 @@ const DEFAULT_CONFIG: &str = r##"# herdr configuration
 # Show detected/reported agent labels in split pane borders when no manual pane name is set.
 # show_agent_labels_on_pane_borders = false
 
+# Optional client-only pane colors. Unset leaves panes unchanged.
+# [ui.pane_colors]
+# automatic = true
+# [[ui.pane_colors.rules]]
+# pane = "reviewer" # exact pane ID, manual label, or live agent name
+# theme = "dracula"
+# background = "#271f35"
+# border = "#cba6f7"
+# foreground = "#cdd6f4"
+
+
 # Hide the tab row when a workspace has exactly one tab.
 # New tabs can still be created with the configured keybinding.
 # hide_tab_bar_when_single_tab = false

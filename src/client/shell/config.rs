@@ -135,6 +135,7 @@ impl ClientShellConfig {
             theme_name: theme_runtime.manual_name.clone(),
             theme_runtime,
             palette: crate::app::client_palette_from_config(config),
+            pane_colors: super::pane_colors::PaneColors::from_config(&config.ui.pane_colors),
             keybinds: config
                 .live_keybinds_with_diagnostics()
                 .map(|(keybinds, _diagnostics)| keybinds)
@@ -325,6 +326,7 @@ impl ClientShellConfig {
                 self.hide_tab_bar_when_single_tab = ui.hide_tab_bar_when_single_tab;
                 self.spaces = ui.sidebar.spaces.clone();
                 self.agents = ui.sidebar.agents.clone();
+                self.pane_colors = super::pane_colors::PaneColors::from_config(&ui.pane_colors);
                 self.agent_panel_sort = ui.agent_panel_sort;
                 self.status_indicators = ui.status_indicators;
                 self.sound_enabled = ui.sound.enabled;

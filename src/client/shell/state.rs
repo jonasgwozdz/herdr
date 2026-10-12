@@ -35,6 +35,7 @@ pub(crate) struct ClientShellConfig {
     pub(super) theme_name: String,
     pub(super) theme_runtime: crate::app::state::ThemeRuntimeConfig,
     pub(super) palette: Palette,
+    pub(super) pane_colors: super::pane_colors::PaneColors,
     pub(super) keybinds: LiveKeybindConfig,
     pub(super) local_keys: crate::config::KeysConfig,
     pub(super) keybinding_source: ClientShellKeybindingSource,

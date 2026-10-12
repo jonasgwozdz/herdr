@@ -176,7 +176,7 @@ impl ClientShellState {
             let (cols, rows) = self.last_composed_size.unwrap_or_default();
             self.layout(cols, rows).pane_surface
         });
-        let composed_patch = fast_path_area.map(|area| ClientComposedSurfacePatch {
+        let mut composed_patch = fast_path_area.map(|area| ClientComposedSurfacePatch {
             rows: patch
                 .rows
                 .iter()
@@ -196,6 +196,13 @@ impl ClientShellState {
                     shape: cursor.shape,
                 }),
         });
+        if let (Some(composed), Some(snapshot), Some(area)) = (
+            composed_patch.as_mut(), self.snapshot.as_deref(), fast_path_area,
+        ) {
+            self.config.pane_colors.paint_rows(
+                &mut composed.rows, current, snapshot, area,
+            );
+        }
         if let Some(area) = fast_path_area {
             let applied = self
                 .pane_surface

@@ -1089,6 +1089,12 @@
           "type": "color",
           "default": "\"cyan\"",
           "description": "Accent color for highlights, borders, and navigation UI. Accepts hex (#89b4fa), named colors (cyan, blue), or RGB (rgb(137,180,250))."
+        },
+        {
+          "key": "ui.pane_colors.automatic",
+          "type": "boolean",
+          "default": "false",
+          "description": "Client-only assignment of six dark pane color schemes. Uses stable pane IDs; explicit rules take priority."
         }
       ]
     },

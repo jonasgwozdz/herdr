@@ -606,3 +606,7 @@ switch_ascii_input_source_in_prefix = true
 ```
 
 日志会自动轮转。报告问题时，请附上当前日志和轮转后的同级日志文件。
+
+## 每个窗格的颜色（自定义分支）
+
+这是可选的客户端设置。在 `[ui.pane_colors]` 中设置 `automatic = true` 可启用六种深色配色。`[[ui.pane_colors.rules]]` 的 `pane` 按窗格 ID、手动标签、代理名称的顺序精确匹配。`theme` 可指定内置主题，`foreground`、`background`、`border` 接受 `#RRGGBB`。应用显式颜色及调色板查询保持原样。重新加载客户端配置或重新连接即可应用，无需重启服务器。

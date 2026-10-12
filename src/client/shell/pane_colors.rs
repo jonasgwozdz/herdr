@@ -26,20 +26,21 @@ pub(super) struct PaneColors {
     rules: HashMap<String, PaneStyle>,
 }
 
+// NERV variants keep the amber terminal text and nearly black backgrounds.
 const AUTOMATIC: [(u32, u32); 6] = [
-    (0x02182235, 0x0289b4fa),
-    (0x021a2b23, 0x02a6e3a1),
-    (0x02271f35, 0x02cba6f7),
-    (0x0230271b, 0x02f9e2af),
-    (0x02172b2e, 0x0294e2d5),
-    (0x02301e26, 0x02f38ba8),
+    (0x02080604, 0x02ff7a00),
+    (0x0204070b, 0x022fa8ff),
+    (0x0208050b, 0x029d5cff),
+    (0x02040907, 0x0239ff6a),
+    (0x020b0505, 0x02ff1e1e),
+    (0x02040909, 0x0200e0b0),
 ];
 
 fn automatic_style(pane_id: &str) -> PaneStyle {
     let number = pane_id
         .rsplit(":p")
         .next()
-        .and_then(|s| s.parse::<usize>().ok());
+        .and_then(crate::workspace::decode_public_number);
     let index = number
         .map(|n| n.saturating_sub(1) % AUTOMATIC.len())
         .unwrap_or_else(|| {
@@ -49,7 +50,7 @@ fn automatic_style(pane_id: &str) -> PaneStyle {
         });
     let (background, border) = AUTOMATIC[index];
     PaneStyle {
-        foreground: Some(0x02cdd6f4),
+        foreground: Some(0x02ffc98a),
         background: Some(background),
         border: Some(border),
     }

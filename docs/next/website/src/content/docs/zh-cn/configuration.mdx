@@ -610,3 +610,16 @@ switch_ascii_input_source_in_prefix = true
 ## 每个窗格的颜色（自定义分支）
 
 这是可选的客户端设置。在 `[ui.pane_colors]` 中设置 `automatic = true` 可启用六种深色配色。`[[ui.pane_colors.rules]]` 的 `pane` 按窗格 ID、手动标签、代理名称的顺序精确匹配。`theme` 可指定内置主题，`foreground`、`background`、`border` 接受 `#RRGGBB`。应用显式颜色及调色板查询保持原样。重新加载客户端配置或重新连接即可应用，无需重启服务器。
+
+此个人 fork 的自动配色使用近乎黑色的 NERV 背景、琥珀色文字，以及橙、蓝、紫、绿、红、青色边框。Unix 辅助脚本 `scripts/herdr_color.py` 需要 Python 3.11 以上，在所有者的 Mac 上单独安装为 `herdr-color`。它备份并保存本地客户端配置，然后请求现有的配置重载，无需重启服务器。
+
+```sh
+herdr-color --list
+herdr-color --current purple
+herdr-color --pane w1:p2 blue
+herdr-color --name reviewer green
+herdr-color --current '#07080B' --border '#9D5CFF'
+herdr-color --current reset
+```
+
+用 `herdr pane list` 获取实际 ID。`--current` 解析调用者所在的面板，不存在时拒绝保存。`--name` 匹配手动标签或代理名称。`reset` 仅删除本工具针对该选择器的规则。`--foreground` 和 `--border` 可覆盖文字与边框颜色。无法自动重载时，在客户端使用默认的 `Ctrl+B`、`Shift+R`。客户端配置路径与服务器不同时，也应直接重载客户端。安装新二进制后，需重新连接一次客户端。

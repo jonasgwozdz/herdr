@@ -4,7 +4,7 @@ use serde::{de::Error, Deserialize, Deserializer};
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(default)]
 pub struct PaneColorsConfig {
-    /// Assign one of six dark color schemes using the stable pane ID.
+    /// Assign one of six nearly black NERV color schemes using the stable pane ID.
     pub automatic: bool,
     /// Exact pane ID, manual label, or live agent name overrides, in that priority order.
     pub rules: Vec<PaneColorRuleConfig>,

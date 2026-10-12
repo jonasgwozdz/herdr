@@ -44,6 +44,7 @@ jobs:
         run: |
           just ci 'not binary(live_handoff)'
           python3 scripts/config_reference_check.py
+          python3 -m unittest scripts.test_herdr_color
       - name: Profile pane-color scaling
         run: cargo test --locked --bin herdr pane_color_scaling_profile -- --ignored --nocapture --test-threads=1
       - name: Build custom client
@@ -51,7 +52,7 @@ jobs:
       - name: Package custom client
         run: |
           cp target/release/herdr herdr-pane-colors
-          shasum -a 256 herdr-pane-colors > BUILD_INFO.txt
+          shasum -a 256 herdr-pane-colors scripts/herdr_color.py > BUILD_INFO.txt
           echo "source_commit=$GITHUB_SHA" >> BUILD_INFO.txt
           rustc --version >> BUILD_INFO.txt
           file herdr-pane-colors >> BUILD_INFO.txt
@@ -62,5 +63,6 @@ jobs:
           path: |
             herdr-pane-colors
             BUILD_INFO.txt
+            scripts/herdr_color.py
             formatting.patch
           retention-days: 7

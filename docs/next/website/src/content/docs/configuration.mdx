@@ -631,6 +631,19 @@ background = "#271f35"
 border = "#cba6f7"
 ```
 
-`pane` matches an exact pane ID, then a manual label, then a live agent name. Later duplicate selectors win. Explicit rules take priority over automatic colors. Automatic colors repeat after six pane numbers and follow pane IDs; a cross-workspace move changes the ID. Label/name rules can keep a color across moves. Foreground, background and border overrides accept `#RRGGBB`. Theme rules change default foreground/background and the border, while explicit application RGB and ANSI colors stay intact. The client does not change terminal palette queries or agent light/dark settings.
+`pane` matches an exact pane ID, then a manual label, then a live agent name. Later duplicate selectors win. Explicit rules take priority over automatic colors. Automatic colors use six nearly black NERV variations with amber text and orange, blue, purple, green, red or teal borders. They repeat after six pane numbers and follow pane IDs; a cross-workspace move changes the ID. Label/name rules can keep a color across moves. Foreground, background and border overrides accept `#RRGGBB`. Theme rules change default foreground/background and the border, while explicit application RGB and ANSI colors stay intact. The client does not change terminal palette queries or agent light/dark settings.
 
 Colors apply to full and incremental frames, including zoom and scrollback. Disable `automatic` and remove the rules to restore the original appearance. Reload local client config with the configured reload shortcut, or detach and attach again. A server restart is unnecessary. Popup terminals retain their original colors. Preferences are local to each client and apply to its connected endpoints. Shared-divider focus uses the client theme accent from the raw server frame; a remote endpoint with a different theme can lose the extra bold indicator.
+
+This personal fork also includes `scripts/herdr_color.py` (Python 3.11+, Unix), installed separately as `herdr-color` on the owner's Mac. It saves backed-up local client config and requests the existing config reload, without restarting the server. Presets retain the same amber text; a custom hex value sets the background and defaults to an orange border. `--foreground` and `--border` can override those channels.
+
+```sh
+herdr-color --list
+herdr-color --current purple
+herdr-color --pane w1:p2 blue
+herdr-color --name reviewer green
+herdr-color --current '#07080B' --border '#9D5CFF'
+herdr-color --current reset
+```
+
+Use IDs returned by `herdr pane list`. `--current` resolves the calling pane and refuses a missing or stale caller, rather than using another focused pane. `--name` writes a label/agent-name rule for matching current or future panes. `reset` removes only this tool's rule for that selector, revealing any existing manual rule or the automatic fallback. The tool owns a marked block at the end of config; edits outside it are preserved. It refuses manually annotated or reformatted managed blocks before writing; keep comments outside that block. If reload is unavailable, use the configured client reload shortcut (default: `Ctrl+B`, then `Shift+R`). `--config` pointing away from the environment/default config saves without an automatic server reload. With a local config override, reload that client directly; the server may use a different config path. Existing clients must reconnect once to load a newly installed binary.

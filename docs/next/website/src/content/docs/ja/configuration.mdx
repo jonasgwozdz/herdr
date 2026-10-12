@@ -610,3 +610,16 @@ Windows でのサポートは現時点で韓国語 IME に限定されていま�
 ## ペインごとの色 (カスタムフォーク)
 
 クライアント側の任意設定です。`[ui.pane_colors]` の `automatic = true` で六種類の暗い配色を有効にします。`[[ui.pane_colors.rules]]` の `pane` はペイン ID、手動ラベル、エージェント名の順で完全一致します。`theme` に組み込みテーマを指定でき、`foreground`、`background`、`border` は `#RRGGBB` を受け取ります。アプリケーションが明示した色とパレット問い合わせは変更しません。設定の再読み込みまたはクライアントの再接続で適用され、サーバー再起動は不要です。
+
+この個人用 fork の自動配色は、ほぼ黒の NERV 背景とアンバー文字、オレンジ・青・紫・緑・赤・ティールの枠を使います。Unix 用 `scripts/herdr_color.py` は Python 3.11 以上が必要で、所有者の Mac では `herdr-color` として別途インストールされています。設定をバックアップして保存し、既存の再読み込みを要求します。サーバーの再起動は不要です。
+
+```sh
+herdr-color --list
+herdr-color --current purple
+herdr-color --pane w1:p2 blue
+herdr-color --name reviewer green
+herdr-color --current '#07080B' --border '#9D5CFF'
+herdr-color --current reset
+```
+
+ID は `herdr pane list` で確認します。`--current` は呼び出し元ペインを解決し、存在しなければ保存しません。`--name` はラベルまたはエージェント名に一致します。`reset` はこのツールの指定ルールだけを削除します。`--foreground` と `--border` は色を上書きできます。再読み込みできない場合はクライアントで既定の `Ctrl+B`、`Shift+R` を使います。設定パスがサーバーと異なる場合もクライアントを直接再読み込みします。新しいバイナリを使うには一度クライアントを再接続してください。

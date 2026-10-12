@@ -414,3 +414,23 @@ background = "#334455"
         color_to_u32(Color::Rgb(0x33, 0x44, 0x55))
     );
 }
+
+#[test]
+fn automatic_nerv_palette_is_dark_and_cycles_through_public_pane_ids() {
+    let colors =
+        super::super::pane_colors::PaneColors::from_config(&colored_config().ui.pane_colors);
+    let backgrounds = [0x080604, 0x04070b, 0x08050b, 0x040907, 0x0b0505, 0x040909];
+    for number in 1..=70 {
+        let pane_id = crate::workspace::public_pane_id_for_number("w1", number);
+        let mut raw = surface();
+        raw.panes[0].pane_id = pane_id;
+        let mut frame = raw.frame.clone();
+        colors.paint_frame(&mut frame, &raw, &snapshot(), Rect::new(0, 0, 4, 3), 0);
+        assert_eq!(
+            frame.cells[0].bg,
+            0x02000000 | backgrounds[(number - 1) % 6]
+        );
+        assert_eq!(frame.cells[0].fg, 0x02ffc98a);
+        assert_eq!(raw.frame.cells[0].bg, 0);
+    }
+}

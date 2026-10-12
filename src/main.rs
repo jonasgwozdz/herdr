@@ -314,7 +314,7 @@ const DEFAULT_CONFIG: &str = r##"# herdr configuration
 # theme = "dracula"
 # background = "#271f35"
 # border = "#cba6f7"
-# foreground = "#cdd6f4"
+# foreground = "#FFC98A"
 
 
 # Hide the tab row when a workspace has exactly one tab.
